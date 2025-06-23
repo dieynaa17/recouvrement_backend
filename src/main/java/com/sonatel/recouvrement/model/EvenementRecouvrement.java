@@ -1,40 +1,42 @@
 package com.sonatel.recouvrement.model;
 
-import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
-import com.sonatel.recouvrement.model.enums.TypeEvenement;
-import com.sonatel.recouvrement.model.enums.StatutEvenement;
 
 @Entity
-@Table(name="EvenementRecouvrement")
+@Table(name = "EvenementRecouvrement")
 public class EvenementRecouvrement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEvenement;
 
-    @Enumerated(EnumType.STRING)
-    private TypeEvenement type;
-
     private LocalDate dateEvenement;
 
-    @Enumerated(EnumType.STRING)
-    private StatutEvenement statut;
-
     private String commentaire;
+
+    @ManyToOne
+    @JoinColumn(name = "type_evenement_id")
+    private TypeEvenement typeEvenement;
+
+    @ManyToOne
+    @JoinColumn(name = "statut_evenement_id")
+    private StatutEvenement statutEvenement;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     @JsonIgnore
     private Client client;
 
-    public EvenementRecouvrement() {}
+    public EvenementRecouvrement() {
+    }
 
-    public EvenementRecouvrement(TypeEvenement type, LocalDate dateEvenement, StatutEvenement statut, String commentaire) {
-        this.type = type;
+    public EvenementRecouvrement(TypeEvenement typeEvenement, LocalDate dateEvenement, StatutEvenement statutEvenement, String commentaire) {
+        this.typeEvenement = typeEvenement;
         this.dateEvenement = dateEvenement;
-        this.statut = statut;
+        this.statutEvenement = statutEvenement;
         this.commentaire = commentaire;
     }
 
@@ -46,28 +48,12 @@ public class EvenementRecouvrement {
         this.idEvenement = idEvenement;
     }
 
-    public TypeEvenement getType() {
-        return type;
-    }
-
-    public void setType(TypeEvenement type) {
-        this.type = type;
-    }
-
     public LocalDate getDateEvenement() {
         return dateEvenement;
     }
 
     public void setDateEvenement(LocalDate dateEvenement) {
         this.dateEvenement = dateEvenement;
-    }
-
-    public StatutEvenement getStatut() {
-        return statut;
-    }
-
-    public void setStatut(StatutEvenement statut) {
-        this.statut = statut;
     }
 
     public String getCommentaire() {
@@ -78,6 +64,22 @@ public class EvenementRecouvrement {
         this.commentaire = commentaire;
     }
 
+    public TypeEvenement getTypeEvenement() {
+        return typeEvenement;
+    }
+
+    public void setTypeEvenement(TypeEvenement typeEvenement) {
+        this.typeEvenement = typeEvenement;
+    }
+
+    public StatutEvenement getStatutEvenement() {
+        return statutEvenement;
+    }
+
+    public void setStatutEvenement(StatutEvenement statutEvenement) {
+        this.statutEvenement = statutEvenement;
+    }
+
     public Client getClient() {
         return client;
     }
@@ -86,3 +88,4 @@ public class EvenementRecouvrement {
         this.client = client;
     }
 }
+
