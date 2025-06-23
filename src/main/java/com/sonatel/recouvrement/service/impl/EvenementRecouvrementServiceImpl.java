@@ -37,9 +37,9 @@ public class EvenementRecouvrementServiceImpl implements EvenementRecouvrementSe
     public EvenementRecouvrement update(Long id, EvenementRecouvrement evenement) {
         EvenementRecouvrement existant = findById(id);
 
-        existant.setType(evenement.getType());
+        existant.setTypeEvenement(evenement.getTypeEvenement());
         existant.setDateEvenement(evenement.getDateEvenement());
-        existant.setStatut(evenement.getStatut());
+        existant.setStatutEvenement(evenement.getStatutEvenement());
         existant.setCommentaire(evenement.getCommentaire());
         existant.setClient(evenement.getClient());
 
@@ -52,3 +52,4 @@ public class EvenementRecouvrementServiceImpl implements EvenementRecouvrementSe
         evenementRepository.deleteById(id);
     }
 }
+

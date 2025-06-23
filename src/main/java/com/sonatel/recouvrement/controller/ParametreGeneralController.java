@@ -1,16 +1,16 @@
 package com.sonatel.recouvrement.controller;
 
+import com.sonatel.recouvrement.dto.ParametreGeneralDTO;
 import com.sonatel.recouvrement.model.ParametreGeneral;
 import com.sonatel.recouvrement.service.ParametreGeneralService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/parametres")
-@CrossOrigin(origins = "*")
 public class ParametreGeneralController {
 
     private final ParametreGeneralService service;
@@ -20,31 +20,46 @@ public class ParametreGeneralController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ParametreGeneral>> getAll() {
-        return ResponseEntity.ok(service.findAll());
+    public List<ParametreGeneralDTO> getAll() {
+        return service.findAll().stream()
+                .map(service::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParametreGeneral> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<ParametreGeneralDTO> getById(@PathVariable Long id) {
+        ParametreGeneral parametre = service.findById(id);
+        if (parametre == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(service.convertToDTO(parametre));
     }
 
+    // Pour simplifier : on reçoit l'entité complète, à adapter si tu veux DTO en entrée
     @PostMapping
-    public ResponseEntity<ParametreGeneral> create(@RequestBody ParametreGeneral parametre) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(parametre));
+    public ResponseEntity<ParametreGeneralDTO> create(@RequestBody ParametreGeneral parametre) {
+        ParametreGeneral saved = service.save(parametre);
+        return ResponseEntity.ok(service.convertToDTO(saved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParametreGeneral> update(@PathVariable Long id, @RequestBody ParametreGeneral parametre) {
-        service.findById(id); // vérifie existence
+    public ResponseEntity<ParametreGeneralDTO> update(@PathVariable Long id, @RequestBody ParametreGeneral parametre) {
+        ParametreGeneral existing = service.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
         parametre.setIdParametre(id);
-        return ResponseEntity.ok(service.save(parametre));
+        ParametreGeneral updated = service.save(parametre);
+        return ResponseEntity.ok(service.convertToDTO(updated));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        ParametreGeneral existing = service.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
-

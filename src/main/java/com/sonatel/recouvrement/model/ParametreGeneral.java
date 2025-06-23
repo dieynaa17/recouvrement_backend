@@ -1,10 +1,11 @@
 package com.sonatel.recouvrement.model;
 
-import jakarta.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="ParametreGeneral")
+@Table(name = "parametre_general")
 public class ParametreGeneral {
 
     @Id
@@ -12,12 +13,34 @@ public class ParametreGeneral {
     private Long idParametre;
 
     private double seuilAlerte;
-    private String periodeAnalyse;
-    private String segment;
-    private String marche;
-    private String uniteMonetaire;
-    private String offre;
 
+    // Relation ManyToOne vers l'entité PeriodeAnalyse (remplace enum)
+    @ManyToOne
+    @JoinColumn(name = "periode_analyse_id")
+    private PeriodeAnalyse periodeAnalyse;
+
+    // Relation ManyToOne vers Segment (déjà entité)
+    @ManyToOne
+    @JoinColumn(name = "segment_id")
+    private Segment segment;
+
+    // Relation ManyToOne vers Marche (remplace enum)
+    @ManyToOne
+    @JoinColumn(name = "marche_id")
+    private Marche marche;
+
+    // Relation ManyToOne vers Offre
+    @ManyToOne
+    @JoinColumn(name = "offre_id")
+    private Offre offre;
+
+
+    // Relation ManyToOne vers UniteMonetaire (remplace enum)
+    @ManyToOne
+    @JoinColumn(name = "unite_monetaire_id")
+    private UniteMonetaire uniteMonetaire;
+
+    // Admin créateur/modificateur
     @ManyToOne
     @JoinColumn(name = "admin_id")
     @JsonIgnore
@@ -25,14 +48,17 @@ public class ParametreGeneral {
 
     public ParametreGeneral() {}
 
-    public ParametreGeneral(double seuilAlerte, String periodeAnalyse, String segment, String marche, String offre, String uniteMonetaire) {
+    public ParametreGeneral(double seuilAlerte, PeriodeAnalyse periodeAnalyse, Segment segment,
+                            Marche marche, Offre offre, UniteMonetaire uniteMonetaire) {
         this.seuilAlerte = seuilAlerte;
         this.periodeAnalyse = periodeAnalyse;
         this.segment = segment;
         this.marche = marche;
-        this.offre= offre;
+        this.offre = offre;
         this.uniteMonetaire = uniteMonetaire;
     }
+
+    // --- Getters & Setters ---
 
     public Long getIdParametre() {
         return idParametre;
@@ -50,43 +76,43 @@ public class ParametreGeneral {
         this.seuilAlerte = seuilAlerte;
     }
 
-    public String getPeriodeAnalyse() {
+    public PeriodeAnalyse getPeriodeAnalyse() {
         return periodeAnalyse;
     }
 
-    public void setPeriodeAnalyse(String periodeAnalyse) {
+    public void setPeriodeAnalyse(PeriodeAnalyse periodeAnalyse) {
         this.periodeAnalyse = periodeAnalyse;
     }
 
-    public String getSegment() {
+    public Segment getSegment() {
         return segment;
     }
 
-    public void setSegment(String segment) {
+    public void setSegment(Segment segment) {
         this.segment = segment;
     }
 
-    public String getMarche() {
+    public Marche getMarche() {
         return marche;
     }
 
-    public void setMarche(String marche) {
+    public void setMarche(Marche marche) {
         this.marche = marche;
     }
 
-    public String getOffre() {
+    public Offre getOffre() {
         return offre;
     }
 
-    public void setOffre(String offre) {
+    public void setOffre(Offre offre) {
         this.offre = offre;
     }
 
-    public String getUniteMonetaire() {
+    public UniteMonetaire getUniteMonetaire() {
         return uniteMonetaire;
     }
 
-    public void setUniteMonetaire(String uniteMonetaire) {
+    public void setUniteMonetaire(UniteMonetaire uniteMonetaire) {
         this.uniteMonetaire = uniteMonetaire;
     }
 
