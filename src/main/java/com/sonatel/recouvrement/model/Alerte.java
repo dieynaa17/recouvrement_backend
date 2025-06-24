@@ -1,7 +1,8 @@
 package com.sonatel.recouvrement.model;
 
-import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity

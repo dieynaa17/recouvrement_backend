@@ -1,10 +1,9 @@
 package com.sonatel.recouvrement.service.impl;
-import com.sonatel.recouvrement.service.ParametreGeneralService;
-
 
 import com.sonatel.recouvrement.dto.ParametreGeneralDTO;
 import com.sonatel.recouvrement.model.ParametreGeneral;
 import com.sonatel.recouvrement.repository.ParametreGeneralRepository;
+import com.sonatel.recouvrement.service.ParametreGeneralService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

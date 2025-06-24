@@ -1,9 +1,10 @@
 package com.sonatel.recouvrement.service.impl;
 
+import com.sonatel.recouvrement.exception.ResourceNotFoundException;
 import com.sonatel.recouvrement.model.Utilisateur;
 import com.sonatel.recouvrement.repository.UtilisateurRepository;
 import com.sonatel.recouvrement.service.UtilisateurService;
-import com.sonatel.recouvrement.exception.ResourceNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,12 @@ import java.util.List;
 public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,
+                                  BCryptPasswordEncoder passwordEncoder) {
         this.utilisateurRepository = utilisateurRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -30,6 +34,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public Utilisateur save(Utilisateur utilisateur) {
+        // Hashage du mot de passe s’il est non null
+        if (utilisateur.getMotDePasse() != null && !utilisateur.getMotDePasse().isBlank()) {
+            utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
+        }
         return utilisateurRepository.save(utilisateur);
     }
 
@@ -41,3 +49,4 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         utilisateurRepository.deleteById(id);
     }
 }
+

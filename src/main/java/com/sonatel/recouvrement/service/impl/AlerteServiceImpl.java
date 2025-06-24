@@ -1,14 +1,12 @@
 package com.sonatel.recouvrement.service.impl;
+
 import com.sonatel.recouvrement.exception.ResourceNotFoundException;
-
-
 import com.sonatel.recouvrement.model.Alerte;
-import com.sonatel.recouvrement.service.AlerteService;
 import com.sonatel.recouvrement.repository.AlerteRepository;
+import com.sonatel.recouvrement.service.AlerteService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AlerteServiceImpl implements AlerteService {
