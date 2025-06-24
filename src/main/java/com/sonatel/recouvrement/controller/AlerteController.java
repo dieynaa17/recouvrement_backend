@@ -1,6 +1,5 @@
 package com.sonatel.recouvrement.controller;
 
-import com.sonatel.recouvrement.exception.ResourceNotFoundException;
 import com.sonatel.recouvrement.model.Alerte;
 import com.sonatel.recouvrement.service.AlerteService;
 import org.springframework.http.HttpStatus;

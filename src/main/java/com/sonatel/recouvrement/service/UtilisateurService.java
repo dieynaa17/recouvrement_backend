@@ -1,7 +1,8 @@
 package com.sonatel.recouvrement.service;
 
-import com.sonatel.recouvrement.model.Utilisateur;
 import com.sonatel.recouvrement.exception.ResourceNotFoundException;
+import com.sonatel.recouvrement.model.Utilisateur;
+
 import java.util.List;
 
 public interface UtilisateurService {

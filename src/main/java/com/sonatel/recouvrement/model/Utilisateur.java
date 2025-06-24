@@ -3,12 +3,13 @@ package com.sonatel.recouvrement.model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "role"  // champ JSON pour déterminer le type
+        property = "role"
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Administrateur.class, name = "ADMIN"),
@@ -27,9 +28,14 @@ public abstract class Utilisateur {
     protected String nom;
     protected String prenom;
     protected String email;
+
+    @Column(name = "mot_de_passe")
     protected String motDePasse;
 
     protected LocalDate dateCreation;
+
+    @Column(name = "role", insertable = false, updatable = false)
+    protected String role;
 
     public Utilisateur() {}
 
@@ -41,7 +47,7 @@ public abstract class Utilisateur {
         this.dateCreation = dateCreation;
     }
 
-    // Getters et setters
+    // Getters et Setters
 
     public Long getId() {
         return id;
@@ -90,4 +96,10 @@ public abstract class Utilisateur {
     public void setDateCreation(LocalDate dateCreation) {
         this.dateCreation = dateCreation;
     }
+
+    public String getRole() {
+        return role;
+    }
 }
+
+
