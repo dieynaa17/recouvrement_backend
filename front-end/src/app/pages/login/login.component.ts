@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  protected loginForm: FormGroup;
-  protected isLoading = false;
-  protected errorMessage = '';
+  loginForm: FormGroup;
+  isLoading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -25,22 +27,21 @@ export class LoginComponent {
     });
   }
 
-  protected onSubmit() {
+  onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
-
-      // Simulation appel API
-      setTimeout(() => {
-        this.isLoading = false;
-        const { email, password } = this.loginForm.value;
-
-        if (email === 'admin@sonatel.sn' && password === 'sonatel123') {
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.errorMessage = 'Email ou mot de passe incorrect';
+      const { email, password } = this.loginForm.value;
+      // ici, username et password ont les valeurs du formulaire
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          console.log('Connexion réussie, token:', response.token);
+          // Traitement après login (ex : sauvegarder token, redirection...)
+        },
+        error: (err) => {
+          console.error('Erreur lors du login', err);
         }
-      }, 1500);
+      })
     }
-  }
+}
 }

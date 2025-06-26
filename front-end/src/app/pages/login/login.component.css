@@ -1,20 +1,58 @@
-.login-container {
+/* Structure principale */
+.login-layout {
   display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background-color: #008d75; /* Vert menthe plus clair (anciennement #006d5b) */
-  padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Partie photo (2/3) */
+.cover-section {
+  flex: 2;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-banner {
+  position: absolute;
+  top: rem;
+  left: 0;
+  right: 0;
+  background-color: #FF6B00;
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Partie formulaire (1/3) */
+.form-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #008d75;
+  padding: 2rem;
+}
+
+/* Carte de connexion */
 .login-card {
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   padding: 2.5rem;
   width: 100%;
-  max-width: 450px;
+  max-width: 380px;
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -23,6 +61,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Styles du formulaire existants */
 .logo-container {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -66,13 +105,13 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #008d75; /* Synchronisé avec la nouvelle couleur */
-  box-shadow: 0 0 0 3px rgba(0, 141, 117, 0.2); /* Ajusté en conséquence */
+  border-color: #008d75;
+  box-shadow: 0 0 0 3px rgba(0, 141, 117, 0.2);
 }
 
 .btn-login {
   width: 100%;
-  background-color: #008d75; /* Synchronisé avec la nouvelle couleur */
+  background-color: #008d75;
   color: white;
   border: none;
   padding: 1rem;
@@ -85,7 +124,7 @@ input:focus {
 }
 
 .btn-login:hover {
-  background-color: #007a63; /* Teinte hover ajustée proportionnellement */
+  background-color: #007a63;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -105,4 +144,25 @@ input:focus {
   border-radius: 6px;
   background-color: rgba(231, 76, 60, 0.1);
   font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-layout {
+    flex-direction: column;
+  }
+
+  .cover-section {
+    height: 40vh;
+    flex: none;
+  }
+
+  .cover-banner {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  .form-section {
+    padding: 1.5rem;
+  }
 }

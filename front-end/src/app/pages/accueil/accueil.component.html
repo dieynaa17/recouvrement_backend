@@ -1,0 +1,111 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <img src="assets/images/sonatel-logo.jpg" alt="Sonatel Logo" class="header-logo">
+    <h1>Tableau de Bord - Suivi du Recouvrement</h1>
+    <div class="header-actions">
+      <button class="btn btn-primary">Factures</button>
+      <button class="btn btn-primary">Paiements</button>
+      <button class="btn btn-secondary">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- Filtres -->
+  <div class="filters-section">
+    <div class="filter-group">
+      <label for="market-filter">Marché:</label>
+      <select id="market-filter" class="form-control">
+        <option>Tous</option>
+        <option>Particuliers</option>
+        <option>Entreprises</option>
+        <option>Gouvernement</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="segment-filter">Segment:</label>
+      <select id="segment-filter" class="form-control">
+        <option>Tous</option>
+        <option>Premium</option>
+        <option>Standard</option>
+        <option>Economique</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="offer-filter">Offre:</label>
+      <select id="offer-filter" class="form-control">
+        <option>Toutes</option>
+        <option>Internet</option>
+        <option>Téléphonie</option>
+        <option>Bundle</option>
+      </select>
+    </div>
+
+    <button class="btn btn-apply">Appliquer</button>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-container">
+    <div class="kpi-card">
+      <h3>Taux Global</h3>
+      <div class="kpi-value">85%</div>
+      <div class="kpi-trend up">↑ 2% vs mois dernier</div>
+    </div>
+
+    <div class="kpi-card">
+      <h3>30 Jours</h3>
+      <div class="kpi-value">92%</div>
+      <div class="kpi-trend up">↑ 1.5%</div>
+    </div>
+
+    <div class="kpi-card">
+      <h3>45 Jours</h3>
+      <div class="kpi-value">78%</div>
+      <div class="kpi-trend down">↓ 0.5%</div>
+    </div>
+
+    <div class="kpi-card">
+      <h3>60 Jours</h3>
+      <div class="kpi-value">65%</div>
+      <div class="kpi-trend stable">→ Stable</div>
+    </div>
+  </div>
+
+  <!-- Diagramme principal -->
+  <div class="chart-container">
+    <h2>Évolution du Taux de Recouvrement</h2>
+    <div class="chart-placeholder">
+      <!-- Ici vous intégrerez votre librairie de graphiques (Chart.js, etc.) -->
+      <canvas id="recoveryChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Tableau des clients -->
+  <div class="client-table">
+    <h2>Détails par Client</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Client</th>
+        <th>Contrat</th>
+        <th>Montant</th>
+        <th>Jours en retard</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Client A</td>
+        <td>INTERNET-1254</td>
+        <td>125 000 FCFA</td>
+        <td>15</td>
+        <td><span class="status on-track">En bonne voie</span></td>
+        <td><button class="btn-action">Détails</button></td>
+      </tr>
+      <!-- Plus de lignes... -->
+      </tbody>
+    </table>
+  </div>
+</div>
