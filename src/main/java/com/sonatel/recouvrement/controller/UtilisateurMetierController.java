@@ -3,32 +3,22 @@ package com.sonatel.recouvrement.controller;
 import com.sonatel.recouvrement.model.UtilisateurMetier;
 import com.sonatel.recouvrement.repository.UtilisateurRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/utilisateurs-metier")
-@PreAuthorize("hasRole('ADMIN')") // ⛔ accès global réservé aux ADMIN
 public class UtilisateurMetierController {
 
     private final UtilisateurRepository utilisateurRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UtilisateurMetierController(UtilisateurRepository utilisateurRepository,
-                                       PasswordEncoder passwordEncoder) {
+    public UtilisateurMetierController(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping
     public UtilisateurMetier createUtilisateurMetier(@RequestBody UtilisateurMetier utilisateurMetier) {
-        String rawPassword = utilisateurMetier.getMotDePasse();
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-        utilisateurMetier.setMotDePasse(encodedPassword);
-
         return utilisateurRepository.save(utilisateurMetier);
     }
 
@@ -59,4 +49,3 @@ public class UtilisateurMetierController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-

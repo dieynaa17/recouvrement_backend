@@ -51,5 +51,25 @@ public class IndicateurController {
         indicateurService.deleteById(id); // exception si inexistant
         return ResponseEntity.noContent().build();
     }
+
+    // ✅ Endpoint pour calcul du taux de recouvrement
+    @PostMapping("/taux-recouvrement")
+    public ResponseEntity<Indicateur> calculerTauxRecouvrement(@RequestParam String segment,
+                                                               @RequestParam String marche,
+                                                               @RequestParam String offre,
+                                                               @RequestParam String periode) {
+        Indicateur indicateur = indicateurService.calculerTauxRecouvrement(segment, marche, offre, periode);
+        return ResponseEntity.status(HttpStatus.CREATED).body(indicateur);
+    }
+
+    // ✅ Endpoint pour calcul du chiffre d'affaires
+    @PostMapping("/chiffre-affaires")
+    public ResponseEntity<Indicateur> calculerChiffreAffaires(@RequestParam String segment,
+                                                              @RequestParam String marche,
+                                                              @RequestParam String offre,
+                                                              @RequestParam String periode) {
+        Indicateur indicateur = indicateurService.calculerChiffreAffaires(segment, marche, offre, periode);
+        return ResponseEntity.status(HttpStatus.CREATED).body(indicateur);
+    }
 }
 

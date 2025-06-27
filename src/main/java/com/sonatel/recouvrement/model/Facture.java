@@ -29,6 +29,11 @@ public class Facture {
     @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Paiement> paiements;
 
+    // ✅ Nouvelle relation vers PeriodeAnalyse
+    @ManyToOne
+    @JoinColumn(name = "periode_id")
+    private PeriodeAnalyse periode;
+
     public Facture() {}
 
     public Facture(LocalDate dateEmission, LocalDate echeance, double montant, String statut, double solde) {
@@ -38,6 +43,8 @@ public class Facture {
         this.statut = statut;
         this.solde = solde;
     }
+
+    // --- Getters et Setters ---
 
     public Long getIdFacture() {
         return idFacture;
@@ -102,4 +109,14 @@ public class Facture {
     public void setPaiements(List<Paiement> paiements) {
         this.paiements = paiements;
     }
+
+    // ✅ Getters/Setters pour la période
+    public PeriodeAnalyse getPeriode() {
+        return periode;
+    }
+
+    public void setPeriode(PeriodeAnalyse periode) {
+        this.periode = periode;
+    }
 }
+

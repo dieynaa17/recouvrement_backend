@@ -3,32 +3,22 @@ package com.sonatel.recouvrement.controller;
 import com.sonatel.recouvrement.model.Administrateur;
 import com.sonatel.recouvrement.repository.UtilisateurRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/administrateurs")
-@PreAuthorize("hasRole('ADMIN')") // 🔐 Réserve tout ce contrôleur aux administrateurs
 public class AdministrateurController {
 
     private final UtilisateurRepository utilisateurRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public AdministrateurController(UtilisateurRepository utilisateurRepository,
-                                    PasswordEncoder passwordEncoder) {
+    public AdministrateurController(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping
     public Administrateur createAdministrateur(@RequestBody Administrateur admin) {
-        String rawPassword = admin.getMotDePasse();
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-        admin.setMotDePasse(encodedPassword);
-
         return utilisateurRepository.save(admin);
     }
 
@@ -59,4 +49,3 @@ public class AdministrateurController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-
