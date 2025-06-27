@@ -31,6 +31,23 @@ public class Client {
     @Column(length = 50)
     private String reseau;
 
+    // ✅ Ajout des relations dynamiques
+    @ManyToOne
+    @JoinColumn(name = "segment_id")
+    private Segment segment;
+
+    @ManyToOne
+    @JoinColumn(name = "marche_id")
+    private Marche marche;
+
+    @ManyToOne
+    @JoinColumn(name = "offre_id")
+    private Offre offre;
+
+    @ManyToOne
+    @JoinColumn(name = "periode_analyse_id")
+    private PeriodeAnalyse periodeAnalyse;
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Facture> factures = new ArrayList<>();
@@ -55,6 +72,7 @@ public class Client {
     }
 
     // --- Getters & Setters ---
+
     public Long getId() {
         return id;
     }
@@ -101,6 +119,38 @@ public class Client {
 
     public void setReseau(String reseau) {
         this.reseau = reseau;
+    }
+
+    public Segment getSegment() {
+        return segment;
+    }
+
+    public void setSegment(Segment segment) {
+        this.segment = segment;
+    }
+
+    public Marche getMarche() {
+        return marche;
+    }
+
+    public void setMarche(Marche marche) {
+        this.marche = marche;
+    }
+
+    public Offre getOffre() {
+        return offre;
+    }
+
+    public void setOffre(Offre offre) {
+        this.offre = offre;
+    }
+
+    public PeriodeAnalyse getPeriodeAnalyse() {
+        return periodeAnalyse;
+    }
+
+    public void setPeriodeAnalyse(PeriodeAnalyse periodeAnalyse) {
+        this.periodeAnalyse = periodeAnalyse;
     }
 
     public List<Facture> getFactures() {
@@ -155,3 +205,4 @@ public class Client {
                 '}';
     }
 }
+
