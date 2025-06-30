@@ -4,6 +4,7 @@ import com.sonatel.recouvrement.exception.ResourceNotFoundException;
 import com.sonatel.recouvrement.model.Utilisateur;
 import com.sonatel.recouvrement.service.UtilisateurService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/utilisateurs")
+@PreAuthorize("hasRole('ADMIN')") // ✅ Ajout important
 public class UtilisateurController {
 
     private final UtilisateurService service;
@@ -38,6 +40,7 @@ public class UtilisateurController {
 
     @PostMapping
     public Utilisateur create(@RequestBody Utilisateur utilisateur) {
+        utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse())); // encodage
         return service.save(utilisateur);
     }
 
@@ -49,7 +52,6 @@ public class UtilisateurController {
             utilisateur.setNom(utilisateurDetails.getNom());
             utilisateur.setPrenom(utilisateurDetails.getPrenom());
             utilisateur.setEmail(utilisateurDetails.getEmail());
-
 
             if (utilisateurDetails.getMotDePasse() != null && !utilisateurDetails.getMotDePasse().isBlank()) {
                 utilisateur.setMotDePasse(passwordEncoder.encode(utilisateurDetails.getMotDePasse()));
