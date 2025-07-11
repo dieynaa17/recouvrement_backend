@@ -1,5 +1,4 @@
 package com.sonatel.recouvrement.config;
-
 import com.sonatel.recouvrement.service.impl.UtilisateurDetailsServiceImpl;
 import com.sonatel.recouvrement.utils.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -15,16 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) // ✅ Active @PreAuthorize etc.
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfig {
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UtilisateurDetailsServiceImpl utilisateurDetailsService;
     private final PasswordEncoder passwordEncoder;
-
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           UtilisateurDetailsServiceImpl utilisateurDetailsService,
                           PasswordEncoder passwordEncoder) {
@@ -32,7 +28,6 @@ public class SecurityConfig {
         this.utilisateurDetailsService = utilisateurDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -40,26 +35,26 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/utilisateurs").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/utilisateurs").permitAll() // A reconsidérer: normalement, la création d'utilisateur devrait être protégée
+                        // Routes pour l'utilisateur métier
+                        .requestMatchers("/api/accueil/**").hasRole("UTILISATEUR_METIER")
+                        // Routes admin
+                        .requestMatchers("/api/parametres/**", "/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
-
 }
-
