@@ -36,6 +36,7 @@ com\sonatel\recouvrement\service\FactureService.class
 com\sonatel\recouvrement\repository\PeriodeAnalyseRepository.class
 com\sonatel\recouvrement\service\impl\AlerteServiceImpl.class
 com\sonatel\recouvrement\controller\AlerteController.class
+com\sonatel\recouvrement\dto\UtilisateurDTO.class
 com\sonatel\recouvrement\service\MarcheService.class
 com\sonatel\recouvrement\controller\EvenementRecouvrementController.class
 com\sonatel\recouvrement\service\StatutEvenementService.class
