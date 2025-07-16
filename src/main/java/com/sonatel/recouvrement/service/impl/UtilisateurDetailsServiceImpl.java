@@ -31,6 +31,9 @@ public class UtilisateurDetailsServiceImpl implements UserDetailsService {
         System.out.println("Utilisateur trouvé : " + utilisateur.getEmail());
         System.out.println("Rôle normalisé : " + roleNormalise);
         System.out.println("Mot de passe hashé : " + utilisateur.getMotDePasse());
+        System.out.println("Connexion de : " + utilisateur.getEmail());
+        System.out.println("Avec rôle : " + roleNormalise);
+
 
         return User.builder()
                 .username(utilisateur.getEmail())

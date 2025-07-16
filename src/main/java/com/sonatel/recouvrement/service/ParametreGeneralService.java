@@ -2,7 +2,6 @@ package com.sonatel.recouvrement.service;
 
 import com.sonatel.recouvrement.dto.ParametreGeneralDTO;
 import com.sonatel.recouvrement.model.ParametreGeneral;
-
 import java.util.List;
 
 public interface ParametreGeneralService {
@@ -10,9 +9,7 @@ public interface ParametreGeneralService {
     ParametreGeneral findById(Long id);
     ParametreGeneral save(ParametreGeneral parametre);
     void deleteById(Long id);
-
-    // Déclaration simple, sans corps
+    boolean existsById(Long id); // Ajouté pour résoudre l'erreur
     ParametreGeneralDTO convertToDTO(ParametreGeneral parametre);
+    ParametreGeneral findLatestSettings(); // Correction du typo "ParametreGenerval"
 }
-
-

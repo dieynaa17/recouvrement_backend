@@ -4,14 +4,13 @@ import com.sonatel.recouvrement.dto.ParametreGeneralDTO;
 import com.sonatel.recouvrement.model.ParametreGeneral;
 import com.sonatel.recouvrement.repository.ParametreGeneralRepository;
 import com.sonatel.recouvrement.service.ParametreGeneralService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ParametreGeneralServiceImpl implements ParametreGeneralService {
-
     private final ParametreGeneralRepository repository;
 
     public ParametreGeneralServiceImpl(ParametreGeneralRepository repository) {
@@ -25,8 +24,7 @@ public class ParametreGeneralServiceImpl implements ParametreGeneralService {
 
     @Override
     public ParametreGeneral findById(Long id) {
-        Optional<ParametreGeneral> opt = repository.findById(id);
-        return opt.orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -37,6 +35,11 @@ public class ParametreGeneralServiceImpl implements ParametreGeneralService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) { // Implémentation ajoutée
+        return repository.existsById(id);
     }
 
     @Override
@@ -53,5 +56,11 @@ public class ParametreGeneralServiceImpl implements ParametreGeneralService {
                 parametre.getUniteMonetaire() != null ? parametre.getUniteMonetaire().getLibelle() : null
         );
     }
-}
 
+    @Override
+    public ParametreGeneral findLatestSettings() {
+        return repository.findAll(
+                PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "idParametre"))
+        ).getContent().stream().findFirst().orElse(null);
+    }
+}
